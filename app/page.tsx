@@ -10,7 +10,7 @@ export default function Home() {
     <div className="container">
       <div className="title">ClassroomFinder @ BU</div>
       <div className="subtitle">
-        Fall, 2025 | {now.dayName} {now.displayTime} EST
+        Fall, 2026 | {now.dayName} {now.displayTime} EST
       </div>
       <ClassroomFinder initialDayName={now.dayName} initialDecimalTime={now.decimalTime} />
     </div>

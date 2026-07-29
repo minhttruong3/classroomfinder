@@ -67,7 +67,7 @@ def data_to_csv(class_list):
 
 def get_json_data(acad_group):
     class_list = [] 
-    url = "https://public.mybustudent.bu.edu/psc/BUPRD/EMPLOYEE/SA/s/WEBLIB_HCX_CM.H_CLASS_SEARCH.FieldFormula.IScript_ClassSearch?institution=BU001&term=2258&acad_group="+acad_group+"&page="
+    url = "https://public.mybustudent.bu.edu/psc/BUPRD/EMPLOYEE/SA/s/WEBLIB_HCX_CM.H_CLASS_SEARCH.FieldFormula.IScript_ClassSearch?institution=BU001&term=2268&acad_group="+acad_group+"&page="
     result = retry_request(url,5,30)
     data = result.json() 
     total_page = int(data['pageCount'])
@@ -87,7 +87,7 @@ def get_json_data(acad_group):
     return class_list    
 
 def main():
-    # url = "https://public.mybustudent.bu.edu/psc/BUPRD/EMPLOYEE/SA/s/WEBLIB_HCX_CM.H_CLASS_SEARCH.FieldFormula.IScript_ClassSearch?institution=BU001&term=2258&date_from=&date_thru=&subject=&subject_like=&catalog_nbr=&start_time_equals=&end_time_equals=&start_time_ge=&end_time_le=&days=&campus=&location=&x_acad_career=&acad_group=QST&rqmnt_designtn=&instruction_mode=&keyword=&class_nbr=&acad_org=&enrl_stat=&crse_attr=&crse_attr_value=&instructor_name=&instr_first_name=&session_code=&units=&trigger_search=&page=1"
+    # url = "https://public.mybustudent.bu.edu/psc/BUPRD/EMPLOYEE/SA/s/WEBLIB_HCX_CM.H_CLASS_SEARCH.FieldFormula.IScript_ClassSearch?institution=BU001&term=2268&date_from=&date_thru=&subject=&subject_like=&catalog_nbr=&start_time_equals=&end_time_equals=&start_time_ge=&end_time_le=&days=&campus=&location=&x_acad_career=&acad_group=QST&rqmnt_designtn=&instruction_mode=&keyword=&class_nbr=&acad_org=&enrl_stat=&crse_attr=&crse_attr_value=&instructor_name=&instr_first_name=&session_code=&units=&trigger_search=&page=1"
     # result = retry_request(url,1,10)
     # print(result.json())
     #class_list = parjson(result.json())
