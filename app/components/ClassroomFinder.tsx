@@ -11,49 +11,6 @@ interface Props {
   initialDecimalTime: number;
 }
 
-function BuildingIcon() {
-  return (
-    <svg
-      className="icon"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="4" y="3" width="16" height="18" rx="1" />
-      <line x1="9" y1="7" x2="9" y2="7.01" />
-      <line x1="15" y1="7" x2="15" y2="7.01" />
-      <line x1="9" y1="11" x2="9" y2="11.01" />
-      <line x1="15" y1="11" x2="15" y2="11.01" />
-      <line x1="9" y1="15" x2="9" y2="15.01" />
-      <line x1="15" y1="15" x2="15" y2="15.01" />
-      <line x1="10" y1="21" x2="10" y2="17" />
-      <line x1="14" y1="21" x2="14" y2="17" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg
-      className="icon"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <polyline points="12 7 12 12 15.5 14" />
-    </svg>
-  );
-}
-
 function decimalToTimeInputValue(decimal: number): string {
   const hours = Math.floor(decimal);
   const minutes = Math.round((decimal % 1) * 60);
@@ -64,6 +21,29 @@ function timeInputValueToDecimal(value: string): number {
   const [h, m] = value.split(":").map(Number);
   return h + m / 60;
 }
+
+type Period = "AM" | "PM";
+
+function timeInputValueToParts(value: string): {
+  hour12: number;
+  minute: number;
+  period: Period;
+} {
+  const [hour24, minute] = value.split(":").map(Number);
+  const period: Period = hour24 >= 12 ? "PM" : "AM";
+  let hour12 = hour24 % 12;
+  if (hour12 === 0) hour12 = 12;
+  return { hour12, minute, period };
+}
+
+function partsToTimeInputValue(hour12: number, minute: number, period: Period): string {
+  let hour24 = hour12 % 12;
+  if (period === "PM") hour24 += 12;
+  return `${String(hour24).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+}
+
+const HOUR_OPTIONS = Array.from({ length: 12 }, (_, i) => i + 1);
+const MINUTE_OPTIONS = [0, 15, 30, 45];
 
 function formatDisplayTime(decimal: number): string {
   const hours24 = Math.floor(decimal);
@@ -81,9 +61,10 @@ export default function ClassroomFinder({
   const [selectedBuilding, setSelectedBuilding] = useState<string>("");
   const [mode, setMode] = useState<Mode>(null);
   const [selectedDayName, setSelectedDayName] = useState<string>(initialDayName);
-  const [timeInputValue, setTimeInputValue] = useState<string>(
-    decimalToTimeInputValue(initialDecimalTime)
-  );
+  const [timeInputValue, setTimeInputValue] = useState<string>(() => {
+    const nearestQuarterHour = (Math.round(initialDecimalTime * 4) / 4) % 24;
+    return decimalToTimeInputValue(nearestQuarterHour);
+  });
   const [rooms, setRooms] = useState<RoomAvailability[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [queryLabel, setQueryLabel] = useState<{ day: string; time: string } | null>(
@@ -91,6 +72,7 @@ export default function ClassroomFinder({
   );
 
   const buildingCode = selectedBuilding ? classMap[selectedBuilding] : "all";
+  const { hour12, minute, period } = timeInputValueToParts(timeInputValue);
 
   const fetchNow = useCallback(async () => {
     setLoading(true);
@@ -158,6 +140,9 @@ export default function ClassroomFinder({
       </select>
 
       <div className="button-row">
+        <span
+          className={`button-row-thumb ${mode === "future" ? "position-future" : ""} ${mode ? "" : "position-hidden"}`}
+        />
         <button
           type="button"
           className={`button ${mode === "now" ? "active" : ""}`}
@@ -192,14 +177,55 @@ export default function ClassroomFinder({
             </select>
           </div>
           <div>
-            <label htmlFor="time">Select a Time</label>
-            <input
-              id="time"
-              type="time"
-              className="select"
-              value={timeInputValue}
-              onChange={(e) => setTimeInputValue(e.target.value)}
-            />
+            <label htmlFor="time-hour">Select a Time</label>
+            <div className="time-select-row">
+              <select
+                id="time-hour"
+                className="select"
+                aria-label="Hour"
+                value={hour12}
+                onChange={(e) =>
+                  setTimeInputValue(
+                    partsToTimeInputValue(Number(e.target.value), minute, period)
+                  )
+                }
+              >
+                {HOUR_OPTIONS.map((h) => (
+                  <option key={h} value={h}>
+                    {String(h).padStart(2, "0")}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="select"
+                aria-label="Minute"
+                value={minute}
+                onChange={(e) =>
+                  setTimeInputValue(
+                    partsToTimeInputValue(hour12, Number(e.target.value), period)
+                  )
+                }
+              >
+                {MINUTE_OPTIONS.map((m) => (
+                  <option key={m} value={m}>
+                    {String(m).padStart(2, "0")}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="select"
+                aria-label="AM or PM"
+                value={period}
+                onChange={(e) =>
+                  setTimeInputValue(
+                    partsToTimeInputValue(hour12, minute, e.target.value as Period)
+                  )
+                }
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
           </div>
         </div>
       )}
@@ -208,8 +234,8 @@ export default function ClassroomFinder({
         <>
           <div className="results-heading">
             <strong>
-              At {queryLabel.day} {queryLabel.time}, {rooms.length} room(s) were
-              found:
+              At {queryLabel.day} {queryLabel.time}, {rooms.length}{" "}
+              {rooms.length === 1 ? "room was" : "rooms were"} found:
             </strong>
           </div>
           {rooms.length === 0 ? (
@@ -219,13 +245,9 @@ export default function ClassroomFinder({
               {rooms.map((r) => (
                 <div className="card" key={r.room}>
                   <span className="room-label">
-                    <BuildingIcon />
                     <strong>{r.room}</strong>
                   </span>
-                  <span className="time-label">
-                    <ClockIcon />
-                    {r.label}
-                  </span>
+                  <span className="time-label">{r.label}</span>
                 </div>
               ))}
             </div>

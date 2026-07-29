@@ -19,7 +19,28 @@ import SSW from "@/SSW.json";
 import STH from "@/STH.json";
 import WED from "@/WED.json";
 
-export const masterList: Meeting[] = [
+// Room prefixes with no entry in classMap below -- mostly BU Medical Campus
+// buildings (72 E Concord St, etc.) and, for MAS specifically, affiliated
+// hospitals med students rotate through for clerkships rather than BU rooms.
+const EXCLUDED_ROOM_PREFIXES = new Set([
+  "MAS",
+  "INS",
+  "HOU",
+  "EVN",
+  "CTC",
+  "XBG",
+  "ABG",
+  "GDP",
+  "PTH",
+  "RBN",
+]);
+
+function isExcludedRoom(facilityId: string): boolean {
+  const prefix = facilityId.split(/[ _]/)[0];
+  return EXCLUDED_ROOM_PREFIXES.has(prefix);
+}
+
+const rawMasterList: Meeting[] = [
   ...(CDS as Meeting[]),
   ...(QST as Meeting[]),
   ...(CGS as Meeting[]),
@@ -39,6 +60,10 @@ export const masterList: Meeting[] = [
   ...(STH as Meeting[]),
   ...(WED as Meeting[]),
 ];
+
+export const masterList: Meeting[] = rawMasterList.filter(
+  (meeting) => !isExcludedRoom(meeting.facility_id)
+);
 
 export const classMap: Record<string, string> = {
   "All Buildings": "all",
