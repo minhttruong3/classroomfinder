@@ -11,6 +11,49 @@ interface Props {
   initialDecimalTime: number;
 }
 
+function BuildingIcon() {
+  return (
+    <svg
+      className="icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="4" y="3" width="16" height="18" rx="1" />
+      <line x1="9" y1="7" x2="9" y2="7.01" />
+      <line x1="15" y1="7" x2="15" y2="7.01" />
+      <line x1="9" y1="11" x2="9" y2="11.01" />
+      <line x1="15" y1="11" x2="15" y2="11.01" />
+      <line x1="9" y1="15" x2="9" y2="15.01" />
+      <line x1="15" y1="15" x2="15" y2="15.01" />
+      <line x1="10" y1="21" x2="10" y2="17" />
+      <line x1="14" y1="21" x2="14" y2="17" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg
+      className="icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="12 7 12 12 15.5 14" />
+    </svg>
+  );
+}
+
 function decimalToTimeInputValue(decimal: number): string {
   const hours = Math.floor(decimal);
   const minutes = Math.round((decimal % 1) * 60);
@@ -176,9 +219,13 @@ export default function ClassroomFinder({
               {rooms.map((r) => (
                 <div className="card" key={r.room}>
                   <span className="room-label">
-                    🏫 <strong>{r.room}</strong>
+                    <BuildingIcon />
+                    <strong>{r.room}</strong>
                   </span>
-                  <span className="time-label">⏰ {r.label}</span>
+                  <span className="time-label">
+                    <ClockIcon />
+                    {r.label}
+                  </span>
                 </div>
               ))}
             </div>
