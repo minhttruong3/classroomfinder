@@ -68,13 +68,6 @@ select {
   flex-wrap: wrap;
 }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap;
-}
-
 .brand {
   font-weight: 700;
   font-size: 18px;
@@ -88,36 +81,6 @@ select {
 
 .brand span {
   color: var(--red);
-}
-
-.schools {
-  display: flex;
-  gap: 4px;
-}
-
-.schools a,
-.schools .soon-school {
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: var(--muted);
-  font-weight: 500;
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.schools a:hover {
-  color: var(--ink);
-}
-
-.schools a.active {
-  background: var(--red-tint);
-  color: var(--red-dark);
-  font-weight: 600;
-}
-
-.schools .soon-school {
-  opacity: 0.6;
-  cursor: default;
 }
 
 .contact {
@@ -613,10 +576,6 @@ a.school-card:hover {
 @media (max-width: 720px) {
   .wrap {
     padding: 0 16px;
-  }
-
-  .schools {
-    display: none;
   }
 
   .hero h1 {
