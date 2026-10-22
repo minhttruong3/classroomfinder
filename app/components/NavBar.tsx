@@ -5,28 +5,34 @@ import { usePathname } from "next/navigation";
 
 export default function NavBar() {
   const pathname = usePathname();
-  const isBostonUniversity = pathname === "/boston-university";
+  const onBostonUniversity = pathname.startsWith("/boston-university");
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <Link href="/" className="navbar-logo">
-          <span className="navbar-logo-primary">classroom</span>
-          <span className="navbar-logo-secondary">finder</span>
-        </Link>
-        <nav className="navbar-links">
-          <Link
-            href="/boston-university"
-            className={`nav-link ${isBostonUniversity ? "active" : ""}`}
-          >
-            Boston University
+    <header className="site-header">
+      <div className="wrap">
+        <div className="header-left">
+          <Link href="/" className="brand">
+            classroom<span>finder</span>
           </Link>
-          <span className="nav-link-disabled">Harvard University</span>
-          <span className="nav-link-disabled">Northeastern University</span>
-          <a href="#" className="nav-link">
-            Contact Us
-          </a>
-        </nav>
+          <nav className="schools" aria-label="Schools">
+            <Link
+              href="/boston-university"
+              className={onBostonUniversity ? "active" : ""}
+              aria-current={onBostonUniversity ? "page" : undefined}
+            >
+              Boston University
+            </Link>
+            <span className="soon-school" title="Coming soon">
+              Harvard
+            </span>
+            <span className="soon-school" title="Coming soon">
+              Northeastern
+            </span>
+          </nav>
+        </div>
+        <a className="contact" href="#">
+          Contact
+        </a>
       </div>
     </header>
   );

@@ -1,5 +1,16 @@
 :root {
-  color-scheme: light;
+  --red: #cc0000;
+  --red-hover: #990000;
+  --red-dark: #a30000;
+  --red-tint: #fbeaea;
+  --ink: #1a1a1a;
+  --muted: #5f6368;
+  --line: #e4e4e0;
+  --line-soft: #eeeeea;
+  --bg: #f6f6f4;
+  --card: #ffffff;
+  --green: #1e6b3f;
+  --amber: #c77700;
 }
 
 * {
@@ -8,163 +19,530 @@
 
 body {
   margin: 0;
-  padding-top: 96px;
-  background-color: #f3f4f6;
-  color: #1a1a1a;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
 }
 
-.navbar {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  max-width: 1100px;
+a {
+  color: var(--red);
+}
+
+a:hover {
+  color: var(--red-hover);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.wrap {
+  max-width: 1200px;
   margin: 0 auto;
-  z-index: 50;
-  height: 64px;
+  padding: 0 24px;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* Header */
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header .wrap {
   display: flex;
   align-items: center;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  flex-wrap: wrap;
 }
 
-.navbar-inner {
-  width: 100%;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 20px;
-}
-
-.navbar-logo {
-  flex-shrink: 0;
+.header-left {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  line-height: 1;
-  color: #1a1a1a;
-  text-decoration: none;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
 }
 
-.navbar-logo-primary {
+.brand {
+  font-weight: 700;
   font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
-.navbar-logo-secondary {
-  margin-top: 2px;
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.navbar-links {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  max-width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-}
-
-.navbar-links::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-link {
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
+  color: var(--ink);
   text-decoration: none;
-  transition: color 0.15s ease;
 }
 
-.nav-link:hover {
-  color: #cc0000;
+.brand:hover {
+  color: var(--ink);
 }
 
-.nav-link.active {
-  color: #cc0000;
+.brand span {
+  color: var(--red);
 }
 
-.nav-link-disabled {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.schools {
+  display: flex;
+  gap: 4px;
+}
+
+.schools a,
+.schools .soon-school {
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-weight: 500;
   font-size: 14px;
+  text-decoration: none;
+}
+
+.schools a:hover {
+  color: var(--ink);
+}
+
+.schools a.active {
+  background: var(--red-tint);
+  color: var(--red-dark);
   font-weight: 600;
-  color: #9ca3af;
+}
+
+.schools .soon-school {
+  opacity: 0.6;
   cursor: default;
 }
 
-.coming-soon-badge {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: #9ca3af;
-  background-color: #f3f4f6;
-  border-radius: 999px;
-  padding: 2px 8px;
+.contact {
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 14px;
 }
 
-.page-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-image: linear-gradient(rgba(17, 17, 17, 0.72), rgba(17, 17, 17, 0.72)),
-    url("/boston-university-campus.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+.contact:hover {
+  color: var(--red);
 }
 
-.landing-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-color: #1f2937;
-}
-
-.container {
+/* Hero */
+.hero {
   position: relative;
-  max-width: 720px;
-  margin: 40px auto;
-  padding: 32px 28px 40px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  border-top: 6px solid #cc0000;
+  overflow: hidden;
+  background: #2a2422 url("/boston-university-campus.jpg") center / cover;
 }
 
-.title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 28px;
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 16, 15, 0.62);
+}
+
+.hero .wrap {
+  position: relative;
+  padding-top: 40px;
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f1d9d6;
+}
+
+.hero h1 {
+  margin: 6px 0 0;
+  font-size: 36px;
+  line-height: 1.15;
+  color: #fff;
   letter-spacing: -0.02em;
 }
 
-.subtitle {
-  text-align: center;
+.hero-sub {
+  margin: 0;
+  font-size: 16px;
+  color: #f1d9d6;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Mode switch with the day/time pickers directly beneath it */
+.when {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search {
+  flex: 999 1 360px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0 14px;
+  height: 48px;
+}
+
+.search input {
+  border: 0;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  background: transparent;
+}
+
+.search:focus-within {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.45);
+}
+
+.seg {
+  display: flex;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.seg button {
+  flex: 1;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #fff;
+  font-weight: 500;
   font-size: 14px;
-  color: #6b7280;
-  margin-top: 4px;
-  margin-bottom: 24px;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+.seg button.on {
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.seg button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.pick {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 8px;
+}
+
+/* Keeps its space so the hero doesn't change height between modes. */
+.pick-hidden {
+  visibility: hidden;
+}
+
+.pick label {
+  display: block;
+  min-width: 0;
+}
+
+.pick select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+/* Main layout */
+.layout {
+  padding-top: 28px;
+  padding-bottom: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.layout aside {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* stays in view beside the results; a long list scrolls inside itself */
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 2px;
+  margin: -2px;
+}
+
+.label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.bldg {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.bldg:hover {
+  border-color: #c9c9c4;
+}
+
+.bldg.extra {
+  display: none;
+}
+
+.layout aside.expanded .bldg.extra {
+  display: flex;
+}
+
+.bldg-toggle {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bldg-toggle:hover {
+  color: var(--red-hover);
+}
+
+.bldg .n {
+  color: var(--muted);
+}
+
+.bldg.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  font-weight: 600;
+}
+
+.bldg.on .n {
+  color: #fff;
+}
+
+.content {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.content h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.content h2.soon-title {
+  font-size: 18px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.sort select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sort select:hover {
+  border-color: #c9c9c4;
+}
+
+/* Room list */
+.rooms {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.room {
+  display: grid;
+  grid-template-columns: minmax(140px, 1.2fr) minmax(200px, 2fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 16px 20px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.room:first-child {
+  border-top: 0;
+}
+
+.code {
+  font-size: 17px;
+  font-weight: 700;
+  display: block;
+}
+
+.bname {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.until {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.left-time {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line-soft);
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--green);
+}
+
+.bar i.short {
+  background: var(--amber);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
+}
+
+.dir {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+.empty {
+  padding: 24px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Opening soon */
+.soon {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.soon > div {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.soon-room {
+  font-size: 16px;
+}
+
+.soon-time {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* Landing page */
+.landing {
+  padding-top: 28px;
+  padding-bottom: 48px;
+  max-width: 720px;
 }
 
 .school-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -174,263 +552,143 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 20px;
-  border: 1px solid #e5e7eb;
-  border-left: 4px solid #cc0000;
-  border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  gap: 12px;
+  flex-wrap: wrap;
+  min-height: 64px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--ink);
   text-decoration: none;
-  color: #1a1a1a;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.school-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+a.school-card:hover {
+  color: var(--ink);
+  border-color: #c9c9c4;
 }
 
-.school-card-left {
+.school-card-main {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .school-name {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-}
-
-.availability-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: #166534;
-  background-color: #dcfce7;
-  border-radius: 999px;
-  padding: 4px 10px;
-  white-space: nowrap;
 }
 
 .school-cta {
   font-size: 14px;
   font-weight: 600;
-  color: #cc0000;
+  color: var(--red);
 }
 
-.school-card-disabled {
-  border-left-color: #d1d5db;
-  cursor: default;
-}
-
-.school-card-disabled:hover {
-  transform: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+.availability-badge {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  background: #e7f3ec;
+  border-radius: 999px;
+  padding: 4px 10px;
+  white-space: nowrap;
 }
 
 .school-card-disabled .school-name {
-  color: #9ca3af;
+  color: #9a9a96;
 }
 
-label {
-  display: block;
-  font-weight: 700;
-  font-size: 13px;
-  color: #374151;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 6px;
-}
-
-.select {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 15px;
-  color: #1a1a1a;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #fff;
-  margin-bottom: 16px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.select:hover {
-  border-color: #9ca3af;
-}
-
-.select:focus {
-  outline: none;
-  border-color: #cc0000;
-  box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15);
-}
-
-.time-select-row {
-  display: flex;
-  gap: 6px;
-}
-
-.time-select-row .select {
-  margin-bottom: 0;
-  text-align: center;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.button-row {
-  position: relative;
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  margin-bottom: 16px;
-  background-color: #f1f3f5;
-  border-radius: 10px;
-}
-
-.button-row-thumb {
-  position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
-  width: calc(50% - 6px);
-  border-radius: 8px;
-  background-color: #cc0000;
-  box-shadow: 0 2px 8px rgba(204, 0, 0, 0.35);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
-}
-
-.button-row-thumb.position-future {
-  transform: translateX(calc(100% + 4px));
-}
-
-.button-row-thumb.position-hidden {
-  opacity: 0;
-}
-
-.button {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  padding: 10px 16px;
-  font-size: 14px;
+.coming-soon-badge {
+  font-size: 12px;
   font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  background-color: transparent;
-  color: #6b7280;
-  cursor: pointer;
-  transition: color 0.15s ease;
-}
-
-.button:hover {
-  color: #1a1a1a;
-}
-
-.button.active {
-  color: #fff;
-}
-
-.button.active:hover {
-  color: #fff;
-}
-
-.future-controls {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.future-controls > div {
-  flex: 1;
-}
-
-.results-heading {
-  font-weight: 600;
-  margin: 8px 0 12px;
-}
-
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-}
-
-.card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid #e5e7eb;
-  border-left: 4px solid #22c55e;
-  border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-.room-label {
-  flex: 1;
-  min-width: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2e2e2e;
-}
-
-.time-label {
-  display: inline-flex;
-  flex-shrink: 0;
-  width: 190px;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-  line-height: 1;
-  font-size: 13px;
-  font-weight: 600;
-  color: #166534;
-  background-color: #dcfce7;
+  color: var(--muted);
+  background: var(--line-soft);
   border-radius: 999px;
-  padding: 8px 16px;
+  padding: 4px 10px;
 }
 
-.empty-state {
-  color: #666;
-  font-size: 15px;
-}
-
-@media (max-width: 480px) {
-  .container {
-    margin: 0;
-    padding: 20px 16px 32px;
-    border-radius: 0;
-  }
-
-  .results-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .future-controls {
-    flex-direction: column;
-  }
-
-  .navbar {
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    border-radius: 14px;
-  }
-
-  .navbar-inner {
+/* Phone */
+@media (max-width: 720px) {
+  .wrap {
     padding: 0 16px;
+  }
+
+  .schools {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+  }
+
+  .hero .wrap {
+    padding-top: 24px;
+    padding-bottom: 18px;
+    gap: 14px;
+  }
+
+  .search {
+    height: 44px;
+  }
+
+  .seg button {
+    min-height: 36px;
+    font-size: 13px;
+  }
+
+  .layout {
+    padding-top: 12px;
     gap: 12px;
   }
 
-  .navbar-links {
-    gap: 14px;
+  .layout aside {
+    flex: 1 1 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    position: static;
+    max-height: none;
+    padding: 0 0 4px;
+    margin: 0;
   }
+
+  /* On phones every building is a chip in the scrolling row. */
+  .bldg.extra {
+    display: flex;
+  }
+
+  .bldg-toggle {
+    display: none;
+  }
+
+  .layout aside::-webkit-scrollbar {
+    display: none;
+  }
+
+  .layout aside .label {
+    display: none;
+  }
+
+  .bldg {
+    width: auto;
+    min-height: 36px;
+    border-radius: 999px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .room {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 14px 16px;
+  }
+
+  .meta {
+    justify-content: flex-end;
+  }
+
 }

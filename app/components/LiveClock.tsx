@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { getEstNow } from "@/lib/time";
 
+const TERM_LABEL = "Fall 2026";
+
 export default function LiveClock() {
   const [now, setNow] = useState(getEstNow);
 
@@ -13,7 +15,7 @@ export default function LiveClock() {
 
   return (
     <>
-      {now.dayName} {now.displayTime} EST
+      {now.dayName} · {now.displayTime.replace(/^0/, "")} · {TERM_LABEL}
     </>
   );
 }
